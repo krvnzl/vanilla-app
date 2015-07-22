@@ -27,7 +27,9 @@
     "angular-touch": "^1.4.1",
     "angular-ui-router": "^0.2.15",
     "browserify": "^10.2.4",
+    "browserify-plain-jade": "^0.2.2",
     "chalk": "^1.1.0",
+    "compression" : "*",
     "dotenv": "^1.2.0",
     "express": "^4.13.0",
     "gulp": "^3.9.0",
@@ -52,8 +54,9 @@
     "mongodb": ">=2.0.35",
     "mongoose": "4.0.x",
     "morgan": "^1.6.1",
+    "shelljs": "^0.5.1",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
+    "vinyl-source-stream": "^1.1.0"
   },
   "devDependencies": {
     "browser-sync": "^2.7.13",

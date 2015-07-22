@@ -24,7 +24,7 @@ var config = {
   js: {
     bundles: [
       {
-        entries: ['./assets/index.js'],
+        entries: ['./app.js'],
         outputName: 'compiled.js'
       }
     ],
@@ -38,25 +38,23 @@ var config = {
       './node_modules/angular-sanitize/angular-sanitize.js',
     ],
 
-    dest: './public/angular/'
+    dest: './public/javascript/'
   },
 
   less: [{
     src: './src/less/marketing/main.less',
     watch: './src/less/marketing/*.less',
-    dest: './public/stylesheets/css/'
+    dest: './public/stylesheets/'
   }],
 
   fonts: {
     src: './assets/fonts/**',
-    dest: './public/stylesheets/fonts'
+    dest: './public/stylesheets/'
   },
 
   jade: {
-    marketing: {
-      src: [ './assets/templates/*.jade' ],
-      dest: './public/views/'
-    }
+    src: [ './assets/templates/*.jade' ],
+    dest: './public/views/'
   }
 
 }
@@ -128,6 +126,16 @@ function javascript (watch, minify) {
   }))
 }
 
+function copyJsLibs (minify) {
+  return gulp.src(config.js.libs)
+    .pipe($.changed(config.js.dest))
+    .pipe($.sourcemaps.init({loadMaps: true}))
+      .pipe($.if(minify, $.uglify()))
+      .pipe($.concat('libs.js'))
+    .pipe($.sourcemaps.write('./'))
+    .pipe(gulp.dest(config.js.dest))
+}
+
 /*
  * Compile LESS css
  */
@@ -159,15 +167,15 @@ function copyFonts () {
 function buildJade(watch) {
   console.log("build Jade...");
   gulp.src(config.jade.src)
-    .pipe(jade())
-    .pipe(templateCache({
-      module: "views.templates",
-      //assumes you're declaring elsewhere 
+    .pipe($.plumber())
+    .pipe($.jade())
+    .pipe($.angularTemplatecache({
+      module: 'marketing.templates',
       standalone: true,
-      // 
-      root: "views/"
+      root: 'views/'
     }))
-    .pipe(rename("templates.js"))
+    .pipe($.rename('templates.js'))
+    // .pipe(gulp.dest(config.jade.marketing.dest))
     .pipe(gulp.dest(config.js.dest))
 }
 
@@ -225,8 +233,7 @@ function watch () {
   })
 
   gulp.watch([
-    config.jade.admin.src,
-    config.jade.marketing.src
+    config.jade.src,
   ], function () {
     buildJade()
       .pipe(browserSync.stream({match: '**/*.js'}))
@@ -247,6 +254,10 @@ gulp.task('fonts', copyFonts)
 
 gulp.task('jade', function () {
   return buildJade(false)
+})
+
+gulp.task('js:libs', function () {
+  return copyJsLibs(true)
 })
 
 gulp.task('nodemon', nodemon)

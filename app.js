@@ -5,8 +5,9 @@
  */
 var express = require('express');
 var app = express();
-var port = 3000;
+var port = 8080;
 var fs = require('fs');
+var compression = require('compression')
 
 /*
  * Use Handlebars for templating
@@ -15,7 +16,7 @@ var fs = require('fs');
 // var hbs;
 
 // For gzip compression
-app.use(express.compress());
+app.use(compression());
 
 /*
  * Config for Production and Development
@@ -66,7 +67,11 @@ app.get('/', function(req, res) {
 });
 
 
+app.set('port', process.env.PORT || 8080);
 /*
  * Start it up
  */
-app.listen(process.env.PORT || port);
+
+ app.listen(app.get('port'), function () {
+    console.log('Express server listening on port ' + app.get('port'))
+  })

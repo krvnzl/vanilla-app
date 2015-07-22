@@ -14,9 +14,4 @@ temp
 Thumbs.db
 node_modules
 
-
-TODO: ignore the repo we decide to use for the assets
-public/angular
-public/views
-public/stylesheets
-public/images/watches
+/public
