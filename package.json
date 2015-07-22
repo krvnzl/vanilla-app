@@ -1,0 +1,21 @@
+{
+  "name": "vanilla-app",
+  "version": "0.0.0",
+  "description": "a basic template for web apps using node, express, and angular",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/unicorn/vanilla-app.git"
+  },
+  "engines": {
+    "node": "0.12.x"
+  },
+  "author": "Cesar Devers",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/unicorn/vanilla-app/issues"
+  },
+  "homepage": "https://github.com/unicorn/vanilla-app"
+}
