@@ -8,8 +8,6 @@ var merge = require('merge-stream')
 var chalk = require('chalk')
 var shell = require('shelljs')
 
-var s3 = require('s3')
-
 var $ = require('gulp-load-plugins')()
 
 var browserSync
