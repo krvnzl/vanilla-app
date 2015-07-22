@@ -24,7 +24,7 @@ var config = {
   js: {
     bundles: [
       {
-        entries: ['./app.js'],
+        entries: ['./assets/javascript/vanillaApp.js'],
         outputName: 'compiled.js'
       }
     ],
@@ -36,6 +36,7 @@ var config = {
       './node_modules/angular-resource/angular-resource.js',
       './node_modules/angular-touch/angular-touch.js',
       './node_modules/angular-sanitize/angular-sanitize.js',
+      './node_modules/angular-ui-router/build/angular-ui-router.js'
     ],
 
     dest: './public/javascript/'
@@ -55,7 +56,11 @@ var config = {
   jade: {
     src: [ './assets/templates/*.jade' ],
     dest: './public/views/'
-  }
+  },
+  home: {
+    src: "assets/templates/index.jade",
+    dest: "./"
+  },
 
 }
 
@@ -166,17 +171,29 @@ function copyFonts () {
  */
 function buildJade(watch) {
   console.log("build Jade...");
+  buildHome()
   gulp.src(config.jade.src)
     .pipe($.plumber())
     .pipe($.jade())
     .pipe($.angularTemplatecache({
-      module: 'marketing.templates',
+      module: 'app.templates',
       standalone: true,
       root: 'views/'
     }))
     .pipe($.rename('templates.js'))
     // .pipe(gulp.dest(config.jade.marketing.dest))
     .pipe(gulp.dest(config.js.dest))
+}
+
+/*
+ * Build Home
+ */
+ function buildHome() {
+  console.log("building Home...");
+  gulp.src(config.home.src)
+    .pipe($.jade())
+    .pipe($.rename("index.html"))
+    .pipe(gulp.dest(config.home.dest));
 }
 
 function nodemon (cb) {
@@ -224,13 +241,6 @@ function watch () {
   // Enable watchify
   javascript(true, false)
   buildJade(true)
-
-  config.less.forEach(function (l) {
-    gulp.watch(l.watch, function () {
-      compileLess(false, [l])
-        .pipe(browserSync.stream({match: '**/*.css'}))
-    })
-  })
 
   gulp.watch([
     config.jade.src,

@@ -17,6 +17,17 @@
   "bugs": {
     "url": "https://github.com/unicorn/vanilla-app/issues"
   },
+  "browserify": {
+    "transform": [
+      "browserify-shim",
+      "browserify-ngannotate",
+      "babelify"
+    ]
+  },
+  "browserify-shim": {
+    "jquery": "global:$",
+    "angular": "global:angular"
+  },
   "homepage": "https://github.com/unicorn/vanilla-app",
   "dependencies": {
     "angular": "^1.4.1",
@@ -26,8 +37,11 @@
     "angular-scroll": "^0.7.1",
     "angular-touch": "^1.4.1",
     "angular-ui-router": "^0.2.15",
+    "babelify": "^6.1.2",
     "browserify": "^10.2.4",
     "browserify-plain-jade": "^0.2.2",
+    "browserify-ngannotate": "^1.0.1",
+    "browserify-shim": "^3.8.9",
     "chalk": "^1.1.0",
     "compression" : "*",
     "dotenv": "^1.2.0",

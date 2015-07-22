@@ -47,8 +47,7 @@ if (process.env.NODE_ENV === 'production') {
     // app.set('views', __dirname + '/views');
 
     // Locate the assets
-    app.use(express.static(__dirname + '/assets'));
-    app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+    app.use(express.static(__dirname + '/public'));
 }
 
 // Set Handlebars
