@@ -7,6 +7,7 @@ var buffer = require('vinyl-buffer')
 var merge = require('merge-stream')
 var chalk = require('chalk')
 var shell = require('shelljs')
+var sass = require('gulp-sass')
 
 var $ = require('gulp-load-plugins')()
 
@@ -42,11 +43,11 @@ var config = {
     dest: './public/javascript/'
   },
 
-  less: [{
-    src: './src/less/marketing/main.less',
-    watch: './src/less/marketing/*.less',
+  sass: {
+    src: './assets/stylesheets/*.scss',
+    watch: './assets/stylesheets/*.scss',
     dest: './public/stylesheets/'
-  }],
+  },
 
   fonts: {
     src: './assets/fonts/**',
@@ -139,6 +140,17 @@ function copyJsLibs (minify) {
       .pipe($.concat('libs.js'))
     .pipe($.sourcemaps.write('./'))
     .pipe(gulp.dest(config.js.dest))
+}
+
+/*
+ * Compile SASS css
+ */
+
+function compileSass () {
+  console.log('build SASS...')
+  gulp.src(config.sass.src)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest(config.sass.dest))
 }
 
 /*
@@ -257,8 +269,8 @@ gulp.task('js', function () {
   return javascript(false, false)
 })
 
-gulp.task('less', function () {
-  return compileLess()
+gulp.task('sass', function () {
+  return compileSass()
 })
 gulp.task('fonts', copyFonts)
 
