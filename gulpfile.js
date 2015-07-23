@@ -2,6 +2,7 @@
 
 var gulp = require('gulp')
 var browserify = require('browserify')
+var concat = require('gulp-concat')
 var source = require('vinyl-source-stream')
 var buffer = require('vinyl-buffer')
 var merge = require('merge-stream')
@@ -45,6 +46,7 @@ var config = {
 
   sass: {
     src: './assets/stylesheets/*.scss',
+    compiled: './assets/stylesheets/',
     watch: './assets/stylesheets/*.scss',
     dest: './public/stylesheets/'
   },
@@ -150,7 +152,10 @@ function compileSass () {
   console.log('build SASS...')
   gulp.src(config.sass.src)
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest(config.sass.dest))
+    .pipe(sass({outputStyle: 'compressed'}))
+    .pipe(gulp.dest(config.sass.compiled))
+    .pipe(concat('test.css'))
+    .pipe(gulp.dest(config.sass.dest));
 }
 
 function copyFonts () {
