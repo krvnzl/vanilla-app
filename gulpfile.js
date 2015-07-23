@@ -153,25 +153,6 @@ function compileSass () {
     .pipe(gulp.dest(config.sass.dest))
 }
 
-/*
- * Compile LESS css
- */
-function compileLess (minify, less) {
-  console.log('build LESS...')
-
-  less = less || config.less
-
-  return merge.apply(merge, less.map(function (l) {
-    return gulp.src(l.src)
-      .pipe($.plumber())
-      .pipe($.sourcemaps.init())
-      .pipe($.less())
-      .pipe($.if(minify, $.minifyCss()))
-      .pipe($.sourcemaps.write('./'))
-      .pipe(gulp.dest(l.dest))
-  }))
-}
-
 function copyFonts () {
   return gulp.src(config.fonts.src)
     .pipe($.changed(config.fonts.dest))
@@ -227,7 +208,6 @@ function buildProduction () {
     copyJsLibs(true),
     copyFonts(),
     javascript(false, true),
-    compileLess(true),
     buildJade(true)
   ])
 
@@ -253,6 +233,7 @@ function watch () {
   // Enable watchify
   javascript(true, false)
   buildJade(true)
+  compileSass()
 
   gulp.watch([
     config.jade.src,
@@ -284,5 +265,5 @@ gulp.task('js:libs', function () {
 
 gulp.task('nodemon', nodemon)
 gulp.task('serve', ['nodemon'], serve)
-gulp.task('watch', ['nodemon', 'serve', 'js:libs', 'fonts'], watch)
+gulp.task('watch', ['nodemon', 'serve', 'js:libs', 'fonts', 'sass'], watch)
 gulp.task('default', ['watch'])
