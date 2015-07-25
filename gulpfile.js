@@ -26,7 +26,7 @@ var config = {
   js: {
     bundles: [
       {
-        entries: ['./assets/app/vanillaApp.js'],
+        entries: ['./assets/modules/app/vanillaApp.js'],
         outputName: 'compiled.js'
       }
     ],
@@ -61,7 +61,7 @@ var config = {
     dest: './public/views/'
   },
   home: {
-    src: "assets/app/index.jade",
+    src: "assets/modules/app/index.jade",
     dest: "./"
   },
 
