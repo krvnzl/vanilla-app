@@ -26,7 +26,7 @@ var config = {
   js: {
     bundles: [
       {
-        entries: ['./assets/javascript/vanillaApp.js'],
+        entries: ['./assets/app/vanillaApp.js'],
         outputName: 'compiled.js'
       }
     ],
@@ -45,9 +45,9 @@ var config = {
   },
 
   sass: {
-    src: './assets/stylesheets/*.scss',
-    compiled: './assets/stylesheets/',
-    watch: './assets/stylesheets/*.scss',
+    src: './assets/modules/**/*.scss',
+    compiled: './public/stylesheets/',
+    watch: './assets/modules/**/*.scss',
     dest: './public/stylesheets/'
   },
 
@@ -57,11 +57,11 @@ var config = {
   },
 
   jade: {
-    src: [ './assets/templates/*.jade' ],
+    src: [ './assets/modules/**/*.jade' ],
     dest: './public/views/'
   },
   home: {
-    src: "assets/templates/index.jade",
+    src: "assets/app/index.jade",
     dest: "./"
   },
 
@@ -153,8 +153,8 @@ function compileSass () {
   gulp.src(config.sass.src)
     .pipe(sass().on('error', sass.logError))
     .pipe(sass({outputStyle: 'compressed'}))
-    .pipe(gulp.dest(config.sass.compiled))
-    .pipe(concat('test.css'))
+    //.pipe(gulp.dest(config.sass.compiled))
+    .pipe(concat('vanilla.css'))
     .pipe(gulp.dest(config.sass.dest));
 }
 
