@@ -40,7 +40,7 @@ var config = {
       './node_modules/angular-sanitize/angular-sanitize.js',
       './node_modules/angular-ui-router/build/angular-ui-router.js'
     ],
-
+    src: './assets/modules/**/*.js',
     dest: './public/javascript/'
   },
 
@@ -125,6 +125,7 @@ function buildJs (config) {
 }
 
 function javascript (watch, minify) {
+  console.log("we are compiling the JS");
   // iterate through bundles and build each one
   return merge.apply(merge, config.js.bundles.map(function (c) {
     c.watch = watch
@@ -150,12 +151,14 @@ function copyJsLibs (minify) {
 
 function compileSass () {
   console.log('build SASS...')
-  gulp.src(config.sass.src)
+  var compile = gulp.src(config.sass.src)
     .pipe(sass().on('error', sass.logError))
     .pipe(sass({outputStyle: 'compressed'}))
     //.pipe(gulp.dest(config.sass.compiled))
     .pipe(concat('vanilla.css'))
     .pipe(gulp.dest(config.sass.dest));
+
+  return compile
 }
 
 function copyFonts () {
@@ -170,7 +173,8 @@ function copyFonts () {
 function buildJade(watch) {
   console.log("build Jade...");
   buildHome()
-  gulp.src(config.jade.src)
+  var compile = 
+    gulp.src(config.jade.src)
     .pipe($.plumber())
     .pipe($.jade())
     .pipe($.angularTemplatecache({
@@ -179,8 +183,8 @@ function buildJade(watch) {
       root: 'views/'
     }))
     .pipe($.rename('templates.js'))
-    // .pipe(gulp.dest(config.jade.marketing.dest))
     .pipe(gulp.dest(config.js.dest))
+    return compile
 }
 
 /*
@@ -236,9 +240,18 @@ function serve (done) {
 
 function watch () {
   // Enable watchify
-  javascript(true, false)
+  console.log('moving on to jade');
   buildJade(true)
-  compileSass()
+
+  gulp.watch(config.js.src, function() {
+    console.log('now we js');
+     javascript(true, false)
+  })
+
+  gulp.watch(config.sass.src, function() {
+    compileSass()
+    .pipe(browserSync.stream())
+  });
 
   gulp.watch([
     config.jade.src,

@@ -10,3 +10,19 @@
  * post referencing its corresponding post template
  *
  */
+
+ ;"use strict";
+
+angular.module('eko.directives', [])
+.directive("fillBackgroundImgs", function() {
+
+	return function(scope, element, attrs) {
+		attrs.$observe('fillBackgroundImg', function(value) {
+			element.css({
+					'background-image': 'url(static/images/' + value + ')'
+				});
+			element.addClass('fill-background-img');
+		});
+	};
+
+})
