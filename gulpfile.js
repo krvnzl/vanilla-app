@@ -53,7 +53,7 @@ var config = {
 
   fonts: {
     src: './assets/fonts/**',
-    dest: './public/stylesheets/'
+    dest: './public/font/'
   },
 
   jade: {
