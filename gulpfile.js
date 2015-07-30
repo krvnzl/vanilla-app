@@ -26,7 +26,7 @@ var config = {
   js: {
     bundles: [
       {
-        entries: ['./assets/modules/app/vanillaApp.js'],
+        entries: ['./assets/modules/app/samsungApp.js'],
         outputName: 'compiled.js'
       }
     ],

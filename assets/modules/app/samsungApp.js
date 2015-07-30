@@ -1,6 +1,6 @@
 ;"use strict";
 
-angular.module('vanillass', ['ui.router'])
+angular.module('vanilla', ['ui.router', 'app.templates'])
 
 
-require('carousel/carouselcontroller.js')
+require('../carousel/carouselcontroller.js')
