@@ -10,6 +10,7 @@
 *.db
 *.html
 .env
+.idea
 temp
 Thumbs.db
 node_modules
